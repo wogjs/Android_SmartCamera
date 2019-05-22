@@ -29,7 +29,7 @@ public class Non_members_order extends AppCompatActivity {
                 dlg.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(Non_members_order.this, order.class);
+                        Intent intent = new Intent(Non_members_order.this, activity_expendables.class);
                         startActivity(intent);
                     }
                 });
@@ -40,7 +40,8 @@ public class Non_members_order extends AppCompatActivity {
         Cancle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(Non_members_order.this, activity_expendables.class);
+                startActivity(intent);
             }
         });
     }

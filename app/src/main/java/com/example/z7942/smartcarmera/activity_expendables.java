@@ -1,10 +1,13 @@
 package com.example.z7942.smartcarmera;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import java.io.InputStream;
@@ -13,11 +16,68 @@ import java.net.URL;
 public class activity_expendables extends AppCompatActivity {
 
     Handler handler = new Handler();
+    Button btnOrder1, btnOrder2, btnOrder3,btnOrder4,btnOrder5,btnOrder6;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expendableslist);
+
+        btnOrder1 = (Button)findViewById(R.id.btnOrder1);
+        btnOrder2 = (Button)findViewById(R.id.btnOrder2);
+        btnOrder3 = (Button)findViewById(R.id.btnOrder3);
+        btnOrder4 = (Button)findViewById(R.id.btnOrder4);
+        btnOrder5 = (Button)findViewById(R.id.btnOrder5);
+        btnOrder6 = (Button)findViewById(R.id.btnOrder6);
+
+        btnOrder1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), order.class);
+                startActivity(intent);
+            }
+        });
+
+        btnOrder2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), Non_members_order.class);
+                startActivity(intent);
+            }
+        });
+
+        btnOrder3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), order.class);
+                startActivity(intent);
+            }
+        });
+
+        btnOrder4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), Non_members_order.class);
+                startActivity(intent);
+            }
+        });
+
+        btnOrder5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), order.class);
+                startActivity(intent);
+            }
+        });
+
+        btnOrder6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), Non_members_order.class);
+                startActivity(intent);
+            }
+        });
+
 
        /* //인터넷 이미지 불러오기
         Thread t = new Thread(new Runnable() {

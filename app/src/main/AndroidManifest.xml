@@ -2,9 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.z7942.smartcarmera">
 
-<<<<<<< HEAD
     <uses-permission android:name="android.permission.INTERNET" />
-=======
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="21" />
@@ -13,7 +11,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-feature android:name="android.hardware.camera" android:required="true"/>
->>>>>>> cd4bceb2b02911ab5f53b64a1d8bdce1e3304468
 
     <application
         android:allowBackup="true"
@@ -22,16 +19,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-<<<<<<< HEAD
         <activity android:name=".order">
         </activity>
         <activity android:name=".Non_members_order">
-=======
+        </activity>
         <activity
             android:name=".activity_loading"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
->>>>>>> cd4bceb2b02911ab5f53b64a1d8bdce1e3304468
+
             <intent-filter>
 
                 <action android:name="android.intent.action.MAIN" />
