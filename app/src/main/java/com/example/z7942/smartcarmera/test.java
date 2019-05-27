@@ -87,6 +87,7 @@ public class test extends AppCompatActivity {
         mMainImage = findViewById(R.id.main_image);
     }
 
+    //갤러리 선택
     public void startGalleryChooser() {
         if (PermissionUtils.requestPermission(this, GALLERY_PERMISSIONS_REQUEST, Manifest.permission.READ_EXTERNAL_STORAGE)) {
             Intent intent = new Intent();
@@ -97,6 +98,7 @@ public class test extends AppCompatActivity {
         }
     }
 
+    //카메라
     public void startCamera() {
         Log.d("StartCamera1","Camera_On1");
         if (PermissionUtils.requestPermission(
@@ -130,6 +132,7 @@ public class test extends AppCompatActivity {
         }
     }
 
+    // 권한 요청
     @Override
     public void onRequestPermissionsResult(
             int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -170,6 +173,8 @@ public class test extends AppCompatActivity {
         }
     }
 
+    // 여기서 부터 전부 api 같음
+    //api
     private Vision.Images.Annotate prepareAnnotationRequest(Bitmap bitmap) throws IOException {
         HttpTransport httpTransport = AndroidHttp.newCompatibleTransport();
         JsonFactory jsonFactory = GsonFactory.getDefaultInstance();
@@ -237,6 +242,7 @@ public class test extends AppCompatActivity {
         return annotateRequest;
     }
 
+    //api
     private static class LableDetectionTask extends AsyncTask<Object, Void, String> {
         private final WeakReference<test> mActivityWeakReference;
         private Vision.Images.Annotate mRequest;
@@ -273,6 +279,7 @@ public class test extends AppCompatActivity {
         }
     }
 
+    //api
     private void callCloudVision(final Bitmap bitmap) {
         // Switch text to loading
         mImageDetails.setText(R.string.loading_message);
