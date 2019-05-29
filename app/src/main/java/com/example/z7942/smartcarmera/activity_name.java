@@ -15,7 +15,7 @@ public class activity_name extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_namesearch);
+        setContentView(R.layout.activity_main);
 
         EditName = (EditText)findViewById(R.id.EditName);
         imageButton = (ImageView)findViewById(R.id.imageButton);
