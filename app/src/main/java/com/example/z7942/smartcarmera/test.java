@@ -117,7 +117,7 @@ public class test extends statuscolors {
             case R.id.search1:
                 // User chose the "Settings" item, show the app settings UI...
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                intent.putExtra("name","imageDetail");
+                intent.putExtra("name",imageDetail.getText().toString());
                 startActivity(intent);
                 return true;
 

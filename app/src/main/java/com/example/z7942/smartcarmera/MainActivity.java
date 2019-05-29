@@ -107,12 +107,14 @@ public class MainActivity extends statuscolors implements View.OnClickListener, 
         //액션바의 그림자를 없앰.
         getSupportActionBar().setElevation(0);
         initView();
+
         //setSpinner();
         customLayoutManager = new CustomLayoutManager(this);
         itemList = new ArrayList<>();
         listTypeAdapter = new ListTypeAdapter(this, itemList, requestManager);
         recyclerView.setAdapter(listTypeAdapter);
         recyclerView.setLayoutManager(customLayoutManager);
+
         //switcher();
         pressEnterkey();
         recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -149,6 +151,8 @@ public class MainActivity extends statuscolors implements View.OnClickListener, 
         radioBtnSim = (RadioButton) findViewById(R.id.radioBtnSim);
         radioBtnSim.setChecked(true);
         radioGroupSort = (RadioGroup) findViewById(R.id.radioGroupSort);
+
+
         radioGroupSort.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -177,6 +181,16 @@ public class MainActivity extends statuscolors implements View.OnClickListener, 
 
         btnSearch = (ImageButton) findViewById(R.id.btnSearch);
         btnSearch.setOnClickListener(this);
+
+        if (query != null){
+            Intent intent = getIntent();
+            String name = intent.getStringExtra("name");
+
+
+            query.setText(name);
+
+        }
+
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         progressBar.setVisibility(View.GONE);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
@@ -442,13 +456,6 @@ public class MainActivity extends statuscolors implements View.OnClickListener, 
                     Toast.makeText(this, "다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
                 }
                 break;
-            case R.id.opensource:
-                Intent openSourceIntent = new Intent(MainActivity.this, OpenSourceActivity.class);
-                if(openSourceIntent.resolveActivity(getPackageManager()) != null) {
-                    startActivity(openSourceIntent);
-                } else {
-                    Toast.makeText(this, "다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
-                }
         }
         return true;
     }
