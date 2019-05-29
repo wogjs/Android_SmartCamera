@@ -52,7 +52,6 @@
         <activity android:name=".activity_name" />
         <activity android:name=".activity_setting" />
         <activity android:name=".activity_expendables" />
-        <activity android:name=".test"></activity>
     </application>
 
 </manifest>
