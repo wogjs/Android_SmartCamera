@@ -64,7 +64,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static com.example.z7942.smartcarmera.Util.DBHelper.DATABASE_NAME;
 import static com.example.z7942.smartcarmera.Util.DBHelper.DATABASE_VERSION;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener{
+public class MainActivity extends statuscolors implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener{
 
 
     public static String NAVER_URL = "https://openapi.naver.com/v1/search/";

@@ -22,7 +22,7 @@ import com.example.z7942.smartcarmera.Util.FavoriteItem;
 import static com.example.z7942.smartcarmera.Util.DBHelper.DATABASE_NAME;
 import static com.example.z7942.smartcarmera.Util.DBHelper.TABLE_NAME;
 
-public class DetailFavoriteActivity extends AppCompatActivity implements View.OnClickListener {
+public class DetailFavoriteActivity extends statuscolors implements View.OnClickListener {
 
     ImageView imageDetailFavorite;
     Button btnGoBuyFavorite, btnDelFavorite;

@@ -22,7 +22,7 @@ import static com.example.z7942.smartcarmera.Util.DBHelper.DATABASE_NAME;
 import static com.example.z7942.smartcarmera.Util.DBHelper.DATABASE_VERSION;
 import static com.example.z7942.smartcarmera.Util.DBHelper.TABLE_NAME;
 
-public class DetailActivity extends AppCompatActivity implements View.OnClickListener {
+public class DetailActivity extends statuscolors implements View.OnClickListener {
 
     ImageView imageDetail;
     TextView txtTitleDetail, txtLPriceDetail;

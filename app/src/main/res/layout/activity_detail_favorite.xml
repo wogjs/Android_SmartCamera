@@ -118,7 +118,7 @@
             android:layout_height="60dp"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:background="@color/colorPrimary"
+            android:background="#5B9BD5"
             android:text="사러가기"
             android:textColor="#ffffff"
             android:textSize="18sp"

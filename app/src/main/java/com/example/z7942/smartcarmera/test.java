@@ -13,8 +13,12 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -48,7 +52,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class test extends AppCompatActivity {
+public class test extends statuscolors {
 
     private static final String CLOUD_VISION_API_KEY = BuildConfig.API_KEY;
     public static final String FILE_NAME = "temp.jpg";
@@ -63,7 +67,7 @@ public class test extends AppCompatActivity {
     public static final int CAMERA_PERMISSIONS_REQUEST = 2;
     public static final int CAMERA_IMAGE_REQUEST = 3;
 
-    static TextView imageDetail;
+    public static TextView imageDetail;
     private Uri photoUri;
     private TextView mImageDetails;
     private ImageView mMainImage;
@@ -90,6 +94,40 @@ public class test extends AppCompatActivity {
         mImageDetails = findViewById(R.id.image_details);
         mMainImage = findViewById(R.id.main_image);
 
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //return super.onCreateOptionsMenu(menu);
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.camera_action, menu);
+        return true;
+    }
+
+    //추가된 소스, ToolBar에 추가된 항목의 select 이벤트를 처리하는 함수
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //return super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.search1:
+                // User chose the "Settings" item, show the app settings UI...
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.putExtra("name","imageDetail");
+                startActivity(intent);
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                Toast.makeText(getApplicationContext(), "나머지 버튼 클릭됨", Toast.LENGTH_LONG).show();
+                return super.onOptionsItemSelected(item);
+
+        }
     }
 
     // 권한 요청

@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class OpenSourceActivity extends AppCompatActivity implements View.OnClickListener {
+public class OpenSourceActivity extends statuscolors implements View.OnClickListener {
 
     ImageView imageNaverAPI;
     TextView linkGlide, linkGson;

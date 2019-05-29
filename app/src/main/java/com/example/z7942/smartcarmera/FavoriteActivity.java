@@ -26,7 +26,7 @@ import java.util.List;
 import static com.example.z7942.smartcarmera.Util.DBHelper.DATABASE_NAME;
 import static com.example.z7942.smartcarmera.Util.DBHelper.TABLE_NAME;
 
-public class FavoriteActivity extends AppCompatActivity {
+public class FavoriteActivity extends statuscolors {
 
     RecyclerView recyclerFavorite;
     FavoriteAdapter favoriteAdapter;

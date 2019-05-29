@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -13,18 +14,18 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
-public class activity_main extends AppCompatActivity {
+public class activity_main extends statuscolors {
 
-    Button PicSearch, NameSearch, Setting;
+    ImageButton PicSearch, NameSearch;
 
     @Override
     protected void onCreate(Bundle savedlnstanceState){
         super.onCreate(savedlnstanceState);
         setContentView(R.layout.activity_main);
 
-        PicSearch = (Button)findViewById(R.id.PicSearch);
-        NameSearch = (Button)findViewById(R.id.NameSearch);
-        Setting = (Button)findViewById(R.id.Setting);
+        PicSearch = (ImageButton) findViewById(R.id.PicSearch);
+        NameSearch = (ImageButton) findViewById(R.id.NameSearch);
+
 
         PicSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,13 +45,6 @@ public class activity_main extends AppCompatActivity {
             }
         });
 
-        Setting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), activity_setting.class);
-                startActivity(intent);
-            }
-        });
 
     }
 }
