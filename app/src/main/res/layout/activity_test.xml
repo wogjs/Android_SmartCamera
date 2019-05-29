@@ -31,4 +31,11 @@
         android:layout_margin="@dimen/fab_margin"
         android:src="@android:drawable/ic_menu_gallery" />
 
+    <Button
+        android:layout_gravity="bottom"
+        android:id="@+id/btnNext2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="검색"/>
+
 </android.support.design.widget.CoordinatorLayout>

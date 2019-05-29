@@ -20,7 +20,6 @@ public class activity_name extends AppCompatActivity {
         EditName = (EditText)findViewById(R.id.EditName);
         imageButton = (ImageView)findViewById(R.id.imageButton);
 
-
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
