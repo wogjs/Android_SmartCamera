@@ -29,7 +29,7 @@ public class activity_main extends AppCompatActivity {
         PicSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), activity_camera.class);
+                Intent intent = new Intent(getApplicationContext(), test.class);
                 startActivity(intent);
                 Log.d("TEST1","HERE");
                 Log.d("TEST2", String.valueOf(intent));

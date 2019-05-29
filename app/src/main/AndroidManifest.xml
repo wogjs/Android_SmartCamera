@@ -3,8 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.z7942.smartcarmera">
 
-    <uses-sdk android:targetSdkVersion="21" />
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -14,9 +12,6 @@
 
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-
-=======
->>>>>>> parent of bf0ffcb... VisionApI
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -58,7 +53,6 @@
         <activity android:name=".activity_name" />
         <activity android:name=".activity_setting" />
         <activity android:name=".activity_expendables" />
-<<<<<<< HEAD
         <activity
             android:name=".DetailActivity"
             android:screenOrientation="portrait"></activity>
@@ -72,8 +66,6 @@
         <activity android:name=".DetailFavoriteActivity"
             android:screenOrientation="portrait"></activity>
         <activity android:name=".test"></activity>
-=======
->>>>>>> 4e3ca5158ff4db75f79585eaca1e3c88739a0b67
     </application>
 
 </manifest>

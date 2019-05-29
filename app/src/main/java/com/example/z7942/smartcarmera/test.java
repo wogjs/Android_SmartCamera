@@ -90,13 +90,6 @@ public class test extends AppCompatActivity {
         mImageDetails = findViewById(R.id.image_details);
         mMainImage = findViewById(R.id.main_image);
 
-        findViewById(R.id.btnNext2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),activity_name.class);
-                startActivity(intent);
-            }
-        });
     }
 
     // 권한 요청
