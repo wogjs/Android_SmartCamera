@@ -22,6 +22,14 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/image_details1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="8dp"
+                android:text="Label APi"
+                tools:ignore="Suspicious0dp" />
+
+            <TextView
                 android:id="@+id/image_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -32,7 +40,7 @@
                 android:id="@+id/main_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="fitCenter"/>
+                />
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

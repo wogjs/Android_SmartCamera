@@ -88,8 +88,6 @@ public class MainActivity extends statuscolors implements View.OnClickListener, 
 
     RequestManager requestManager;
 
-    long pressedTime = 0;
-    long seconds = 0;
     int lprice;
     int displayValue = 100;
     int startValue = 1;
@@ -185,8 +183,6 @@ public class MainActivity extends statuscolors implements View.OnClickListener, 
         if (query != null){
             Intent intent = getIntent();
             String name = intent.getStringExtra("name");
-
-
             query.setText(name);
 
         }
@@ -416,26 +412,6 @@ public class MainActivity extends statuscolors implements View.OnClickListener, 
     public void hideKeyboard(){
         InputMethodManager immanager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         immanager.hideSoftInputFromWindow(query.getWindowToken(), 0);
-    }
-
-    //back버튼을 3초 내에 두 번 누르면 종료되도록 함.
-    @Override
-    public void onBackPressed() {
-
-        if(pressedTime == 0){
-            Toast.makeText(MainActivity.this, "한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
-            pressedTime = System.currentTimeMillis();
-        } else {
-            seconds = System.currentTimeMillis() - pressedTime;
-
-            if ( seconds > 3000 ) {
-                Toast.makeText(MainActivity.this, "한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
-                pressedTime = 0;
-            } else {
-                super.onBackPressed();
-                finish();
-            }
-        }
     }
 
     @Override
