@@ -3,6 +3,8 @@ package com.example.z7942.smartcarmera;
 import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -72,6 +75,10 @@ public class test extends statuscolors {
     private TextView mImageDetails;
     private TextView mImageDetails1;
     private ImageView mMainImage;
+
+    String mCurrentPhotoPath;
+    static final int REQUEST_TAKE_PHOTO = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -194,12 +201,13 @@ public class test extends statuscolors {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == GALLERY_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
-            uploadImage(data.getData());
             uploadImage1(data.getData());
+            uploadImage(data.getData());
         } else if (requestCode == CAMERA_IMAGE_REQUEST && resultCode == RESULT_OK) {
             Uri photoUri = FileProvider.getUriForFile(this, getApplicationContext().getPackageName() + ".provider", getCameraFile());
-            uploadImage(photoUri);
             uploadImage1(photoUri);
+            uploadImage(photoUri);
+
         }
     }
 
@@ -450,9 +458,15 @@ public class test extends statuscolors {
             test activity = mActivityWeakReference.get(); // 위크 참조
             Log.d("SuccessedMessage1", String.valueOf(activity));
             if (activity != null && !activity.isFinishing()) {
-                imageDetail = activity.findViewById(R.id.image_details);
-                imageDetail.setText(result);
-                Log.d("Successed6", String.valueOf(imageDetail));
+                Log.d("OOOK", String.valueOf(imageDetail1));
+
+                if (imageDetail1.getText().toString().contains("Printer")) {
+                    Log.d("OOOK1", String.valueOf(imageDetail1));
+                    imageDetail = activity.findViewById(R.id.image_details);
+                    imageDetail.setText(result);
+                    Log.d("Successed6", String.valueOf(imageDetail));
+                } else
+                    imageDetail.setText("사진을 다시 촬영(선택)하세요");
             }
         }
     }
@@ -554,6 +568,7 @@ public class test extends statuscolors {
 
     // api 메세지 반환
     private static String convertResponseToString(BatchAnnotateImagesResponse response) {
+
 //        StringBuilder message = new StringBuilder("I found these things:\n\n");
         String message = "I found these things:\n\n";
         List<EntityAnnotation> labels = response.getResponses().get(0).getTextAnnotations();
@@ -563,21 +578,22 @@ public class test extends statuscolors {
 //                message.append("\n");
 //            }
             Log.d("Successed", labels.get(0).getDescription());
-            if (labels.get(0).getDescription().contains("잉크와오피스")) {
-                message = "SL-X4220RX";
-            } else if (labels.get(0).getDescription().contains("LaserJet")){
-                message = "HP LaserJet 1536dnf MFP";
-            } else if (labels.get(0).getDescription().contains("SAMSUNG")){
-                message = "ML-2852NDK";
-            } else {
-                message = labels.get(0).getDescription();
+                Log.d("OOK123", String.valueOf(imageDetail1));
+                if (labels.get(0).getDescription().contains("잉크와오피스")) {
+                    message = "SL-X4220RX";
+                } else if (labels.get(0).getDescription().contains("LaserJet")) {
+                    message = "HP LaserJet 1536dnf MFP";
+                } else if (labels.get(0).getDescription().contains("SAMSUNG")) {
+                    message = "ML-2852NDK";
+                } else {
+                    message=labels.get(0).getDescription();
+                }
+                Log.d("SuccessedMessage", message);
             }
-            Log.d("SuccessedMessage",message);
-        } else {
+        else {
             message="사진을 다시 촬영(선택)하세요";
         }
 
         return message;
     }
-
 }
