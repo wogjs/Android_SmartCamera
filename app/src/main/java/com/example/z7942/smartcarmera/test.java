@@ -204,10 +204,51 @@ public class test extends statuscolors {
             uploadImage1(data.getData());
             uploadImage(data.getData());
         } else if (requestCode == CAMERA_IMAGE_REQUEST && resultCode == RESULT_OK) {
+
+            try {
+                switch (requestCode) {
+                    case REQUEST_TAKE_PHOTO: {
+                        if (resultCode == RESULT_OK) {
+                            File file = new File(mCurrentPhotoPath);
+                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.fromFile(file));
+                            if (bitmap != null) {
+                                ExifInterface ei = new ExifInterface(mCurrentPhotoPath);
+                                int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                                        ExifInterface.ORIENTATION_UNDEFINED);
+
+                                Bitmap rotatedBitmap = null;
+                                switch (orientation) {
+
+                                    case ExifInterface.ORIENTATION_ROTATE_90:
+                                        rotatedBitmap = rotateImage(bitmap, 90);
+                                        break;
+
+                                    case ExifInterface.ORIENTATION_ROTATE_180:
+                                        rotatedBitmap = rotateImage(bitmap, 180);
+                                        break;
+
+                                    case ExifInterface.ORIENTATION_ROTATE_270:
+                                        rotatedBitmap = rotateImage(bitmap, 270);
+                                        break;
+
+                                    case ExifInterface.ORIENTATION_NORMAL:
+                                    default:
+                                        rotatedBitmap = bitmap;
+                                }
+
+                                mMainImage.setImageBitmap(rotatedBitmap);
+                            }
+                        }
+                        break;
+
+                    }
+                }
+            }catch (Exception error){
+
+            }
             Uri photoUri = FileProvider.getUriForFile(this, getApplicationContext().getPackageName() + ".provider", getCameraFile());
             uploadImage1(photoUri);
             uploadImage(photoUri);
-
         }
     }
 
@@ -452,7 +493,7 @@ public class test extends statuscolors {
             }
             return "Cloud Vision API request failed. Check logs for details.";
         }
-        String a = "true";
+        String a = "사진을 다시 촬영(선택)하세요";
 
         protected void onPostExecute(String result) { // 사후에?
             test activity = mActivityWeakReference.get(); // 위크 참조
@@ -466,7 +507,7 @@ public class test extends statuscolors {
                     imageDetail.setText(result);
                     Log.d("Successed6", String.valueOf(imageDetail));
                 } else
-                    imageDetail.setText("사진을 다시 촬영(선택)하세요");
+                    imageDetail.setText(a);
             }
         }
     }
@@ -578,17 +619,17 @@ public class test extends statuscolors {
 //                message.append("\n");
 //            }
             Log.d("Successed", labels.get(0).getDescription());
-                Log.d("OOK123", String.valueOf(imageDetail1));
-                if (labels.get(0).getDescription().contains("잉크와오피스")) {
-                    message = "SL-X4220RX";
-                } else if (labels.get(0).getDescription().contains("LaserJet")) {
-                    message = "HP LaserJet 1536dnf MFP";
-                } else if (labels.get(0).getDescription().contains("SAMSUNG")) {
-                    message = "ML-2852NDK";
-                } else {
-                    message=labels.get(0).getDescription();
-                }
-                Log.d("SuccessedMessage", message);
+            Log.d("OOK123", String.valueOf(imageDetail1));
+            if (labels.get(0).getDescription().contains("잉크와오피스")) {
+                message = "SL-X4220RX";
+            } else if (labels.get(0).getDescription().contains("Laser")) {
+                message = "HP LaserJet 1536dnf MFP";
+            } else if (labels.get(0).getDescription().contains("SAMSUNG")) {
+                message = "ML-2852NDK";
+            } else {
+                message=labels.get(0).getDescription();
+            }
+            Log.d("SuccessedMessage", message);
             }
         else {
             message="사진을 다시 촬영(선택)하세요";
@@ -596,4 +637,13 @@ public class test extends statuscolors {
 
         return message;
     }
+
+    public static Bitmap rotateImage(Bitmap source, float angle) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(),
+                matrix, true);
+    }
+
+
 }
