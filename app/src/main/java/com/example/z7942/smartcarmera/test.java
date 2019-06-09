@@ -3,6 +3,7 @@ package com.example.z7942.smartcarmera;
 import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
@@ -43,6 +44,7 @@ import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.google.api.services.vision.v1.model.EntityAnnotation;
 import com.google.api.services.vision.v1.model.Feature;
 import com.google.api.services.vision.v1.model.Image;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -51,6 +53,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Type;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -75,10 +78,6 @@ public class test extends statuscolors {
     private TextView mImageDetails;
     private TextView mImageDetails1;
     private ImageView mMainImage;
-
-    String mCurrentPhotoPath;
-    static final int REQUEST_TAKE_PHOTO = 1;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,25 +147,6 @@ public class test extends statuscolors {
         }
     }
 
-    // 권한 요청
-    @Override
-    public void onRequestPermissionsResult(
-            int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case CAMERA_PERMISSIONS_REQUEST:
-                if (PermissionUtils.permissionGranted(requestCode, CAMERA_PERMISSIONS_REQUEST, grantResults)) {
-                    startCamera();
-                }
-                break;
-            case GALLERY_PERMISSIONS_REQUEST:
-                if (PermissionUtils.permissionGranted(requestCode, GALLERY_PERMISSIONS_REQUEST, grantResults)) {
-                    startGalleryChooser();
-                }
-                break;
-        }
-    }
-
     //갤러리 선택
     public void startGalleryChooser() {
         if (PermissionUtils.requestPermission(this, GALLERY_PERMISSIONS_REQUEST, Manifest.permission.READ_EXTERNAL_STORAGE)) {
@@ -177,7 +157,7 @@ public class test extends statuscolors {
                     GALLERY_IMAGE_REQUEST);
         }
     }
-//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
     //카메라
     public void startCamera() {
         Log.d("StartCamera1","Camera_On1");
@@ -196,60 +176,44 @@ public class test extends statuscolors {
         return new File(dir, FILE_NAME);
     }
 
+    // 권한 요청
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case CAMERA_PERMISSIONS_REQUEST:
+                if (PermissionUtils.permissionGranted(requestCode, CAMERA_PERMISSIONS_REQUEST, grantResults)) {
+                    startCamera();
+                }
+                break;
+            case GALLERY_PERMISSIONS_REQUEST:
+                if (PermissionUtils.permissionGranted(requestCode, GALLERY_PERMISSIONS_REQUEST, grantResults)) {
+                    startGalleryChooser();
+                }
+                break;
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == GALLERY_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
+       if (requestCode == GALLERY_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
             uploadImage1(data.getData());
             uploadImage(data.getData());
         } else if (requestCode == CAMERA_IMAGE_REQUEST && resultCode == RESULT_OK) {
-
-            try {
-                switch (requestCode) {
-                    case REQUEST_TAKE_PHOTO: {
-                        if (resultCode == RESULT_OK) {
-                            File file = new File(mCurrentPhotoPath);
-                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.fromFile(file));
-                            if (bitmap != null) {
-                                ExifInterface ei = new ExifInterface(mCurrentPhotoPath);
-                                int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
-                                        ExifInterface.ORIENTATION_UNDEFINED);
-
-                                Bitmap rotatedBitmap = null;
-                                switch (orientation) {
-
-                                    case ExifInterface.ORIENTATION_ROTATE_90:
-                                        rotatedBitmap = rotateImage(bitmap, 90);
-                                        break;
-
-                                    case ExifInterface.ORIENTATION_ROTATE_180:
-                                        rotatedBitmap = rotateImage(bitmap, 180);
-                                        break;
-
-                                    case ExifInterface.ORIENTATION_ROTATE_270:
-                                        rotatedBitmap = rotateImage(bitmap, 270);
-                                        break;
-
-                                    case ExifInterface.ORIENTATION_NORMAL:
-                                    default:
-                                        rotatedBitmap = bitmap;
-                                }
-
-                                mMainImage.setImageBitmap(rotatedBitmap);
-                            }
-                        }
-                        break;
-
-                    }
-                }
-            }catch (Exception error){
-
-            }
-            Uri photoUri = FileProvider.getUriForFile(this, getApplicationContext().getPackageName() + ".provider", getCameraFile());
+            photoUri = FileProvider.getUriForFile(this, getApplicationContext().getPackageName() + ".provider", getCameraFile());
+//           Picasso.get().load(photoUri).rotate(90f).into(mMainImage);
             uploadImage1(photoUri);
             uploadImage(photoUri);
+
         }
+    }
+
+    public static Bitmap rotateImage(Bitmap source, float angle) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(),
+                matrix, true);
     }
 
     public void uploadImage(Uri uri) {
@@ -493,7 +457,6 @@ public class test extends statuscolors {
             }
             return "Cloud Vision API request failed. Check logs for details.";
         }
-        String a = "사진을 다시 촬영(선택)하세요";
 
         protected void onPostExecute(String result) { // 사후에?
             test activity = mActivityWeakReference.get(); // 위크 참조
@@ -506,8 +469,11 @@ public class test extends statuscolors {
                     imageDetail = activity.findViewById(R.id.image_details);
                     imageDetail.setText(result);
                     Log.d("Successed6", String.valueOf(imageDetail));
-                } else
-                    imageDetail.setText(a);
+                } else {
+                    imageDetail = activity.findViewById(R.id.image_details);
+                    imageDetail.setText("사진을 다시 촬영(선택)하세요");
+                    Log.d("OK123456", String.valueOf(imageDetail));
+                }
             }
         }
     }
@@ -520,6 +486,7 @@ public class test extends statuscolors {
 
         // Do the real work in an async task, because we need to use the network anyway
         try {
+            Log.d("and","and");
             AsyncTask<Object, Void, String> labelDetectionTask = new LableDetectionTask(this, prepareAnnotationRequest(bitmap));
             labelDetectionTask.execute();
         } catch (IOException e) {
@@ -637,13 +604,4 @@ public class test extends statuscolors {
 
         return message;
     }
-
-    public static Bitmap rotateImage(Bitmap source, float angle) {
-        Matrix matrix = new Matrix();
-        matrix.postRotate(angle);
-        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(),
-                matrix, true);
-    }
-
-
 }
