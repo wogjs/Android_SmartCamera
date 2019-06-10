@@ -2,12 +2,10 @@ package com.example.z7942.smartcarmera;
 
 
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,15 +16,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.z7942.smartcarmera.Adapter.FavoriteAdapter;
-import com.example.z7942.smartcarmera.Util.DBHelper;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.example.z7942.smartcarmera.Util.DBHelper.DATABASE_NAME;
 import static com.example.z7942.smartcarmera.Util.DBHelper.TABLE_NAME;
 
-public class FavoriteActivity extends statuscolors {
+public class FavoriteActivity extends Statuscolors {
 
     RecyclerView recyclerFavorite;
     FavoriteAdapter favoriteAdapter;
@@ -38,7 +32,7 @@ public class FavoriteActivity extends statuscolors {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_favorite);
+        setContentView(R.layout.favorite);
 
         getSupportActionBar().setElevation(0);
 
@@ -84,7 +78,7 @@ public class FavoriteActivity extends statuscolors {
                             database.execSQL("DELETE FROM " + TABLE_NAME);
                             favoriteAdapter.notifyDataSetChanged();
                             Toast.makeText(FavoriteActivity.this, "관심 항목이 모두 삭제 되었습니다.", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(FavoriteActivity.this, MainActivity.class);
+                            Intent intent = new Intent(FavoriteActivity.this, Listview.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             if(intent.resolveActivity(getPackageManager()) != null) {

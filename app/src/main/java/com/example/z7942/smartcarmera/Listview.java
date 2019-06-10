@@ -7,30 +7,20 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,7 +34,6 @@ import com.example.z7942.smartcarmera.Util.NaverShoppingSearchService;
 import com.example.z7942.smartcarmera.Util.SearchDataList;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -54,9 +43,6 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -64,7 +50,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static com.example.z7942.smartcarmera.Util.DBHelper.DATABASE_NAME;
 import static com.example.z7942.smartcarmera.Util.DBHelper.DATABASE_VERSION;
 
-public class MainActivity extends statuscolors implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener{
+public class Listview extends Statuscolors implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener{
 
 
     public static String NAVER_URL = "https://openapi.naver.com/v1/search/";
@@ -97,7 +83,7 @@ public class MainActivity extends statuscolors implements View.OnClickListener, 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list);
+        setContentView(R.layout.list);
 
         requestManager = Glide.with(this);
 
@@ -158,7 +144,7 @@ public class MainActivity extends statuscolors implements View.OnClickListener, 
                     case R.id.radioBtnSim:
                         if(!query.getText().toString().isEmpty()) {
                             recyclerView.scrollToPosition(0);
-                            Toast.makeText(MainActivity.this, "검색어와 유사한 물품을 검색합니다.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Listview.this, "검색어와 유사한 물품을 검색합니다.", Toast.LENGTH_SHORT).show();
                             sortType = "sim";
                             clearData();
                             setRetrofit(queryString);
@@ -167,7 +153,7 @@ public class MainActivity extends statuscolors implements View.OnClickListener, 
                     case R.id.radioBtnPrice:
                         if(!query.getText().toString().isEmpty()) {
                             recyclerView.scrollToPosition(0);
-                            Toast.makeText(MainActivity.this, "최저가 순으로 검색합니다.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Listview.this, "최저가 순으로 검색합니다.", Toast.LENGTH_SHORT).show();
                             sortType = "asc";
                             clearData();
                             setRetrofit(queryString);
@@ -198,12 +184,12 @@ public class MainActivity extends statuscolors implements View.OnClickListener, 
                 if(!query.getText().toString().isEmpty()){
                     swipeRefreshLayout.setRefreshing(false);
                     clearData();
-                    Toast.makeText(MainActivity.this, "다시 검색합니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Listview.this, "다시 검색합니다.", Toast.LENGTH_SHORT).show();
                     setRetrofit(queryString);
                 } else {
                     swipeRefreshLayout.setRefreshing(false);
                     progressBar.setVisibility(View.GONE);
-                    Toast.makeText(MainActivity.this, "검색어를 입력하세요.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Listview.this, "검색어를 입력하세요.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -297,13 +283,13 @@ public class MainActivity extends statuscolors implements View.OnClickListener, 
                     lprice = 2147483647;
                     progressBar.setVisibility(View.GONE);
                     textLowPrice.setText("검색 결과 없음");
-                    Toast.makeText(MainActivity.this, "검색 결과가 없습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Listview.this, "검색 결과가 없습니다.", Toast.LENGTH_SHORT).show();
                 }
                 if (lprice != 2147483647) {
                     textLowPrice.setText(String.format("%,d", lprice) + "원");
                 } else {
                     textLowPrice.setText("검색 결과 없음");
-                    Toast.makeText(MainActivity.this, "검색 결과가 없습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Listview.this, "검색 결과가 없습니다.", Toast.LENGTH_SHORT).show();
                 }
                 textLowPrice.setVisibility(View.VISIBLE);
                 Log.e("listItemPositon",
@@ -392,7 +378,7 @@ public class MainActivity extends statuscolors implements View.OnClickListener, 
         queryString = query.getText().toString();
         progressBar.setVisibility(View.VISIBLE);
         if(queryString.equals("")){
-            Toast.makeText(MainActivity.this, "검색어를 입력하세요", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Listview.this, "검색어를 입력하세요", Toast.LENGTH_SHORT).show();
             progressBar.setVisibility(View.GONE);
         } else {
             if(networkCheck()) {
@@ -425,7 +411,7 @@ public class MainActivity extends statuscolors implements View.OnClickListener, 
         switch(item.getItemId()){
             case R.id.goFavorite:
                 createDatabase();
-                Intent favoriteIntent = new Intent(MainActivity.this, FavoriteActivity.class);
+                Intent favoriteIntent = new Intent(Listview.this, FavoriteActivity.class);
                 if(favoriteIntent.resolveActivity(getPackageManager()) != null) {
                     startActivity(favoriteIntent);
                 } else {

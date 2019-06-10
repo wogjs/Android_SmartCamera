@@ -3,9 +3,7 @@ package com.example.z7942.smartcarmera;
 import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,17 +13,13 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,27 +32,21 @@ import com.google.api.services.vision.v1.Vision;
 import com.google.api.services.vision.v1.VisionRequest;
 import com.google.api.services.vision.v1.VisionRequestInitializer;
 import com.google.api.services.vision.v1.model.AnnotateImageRequest;
-import com.google.api.services.vision.v1.model.AnnotateImageResponse;
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesRequest;
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.google.api.services.vision.v1.model.EntityAnnotation;
 import com.google.api.services.vision.v1.model.Feature;
 import com.google.api.services.vision.v1.model.Image;
-import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.lang.ref.WeakReference;
-import java.lang.reflect.Type;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class test extends statuscolors {
+public class PicChoose extends Statuscolors {
 
     private static final String CLOUD_VISION_API_KEY = BuildConfig.API_KEY;
     public static final String FILE_NAME = "temp.jpg";
@@ -67,7 +55,7 @@ public class test extends statuscolors {
     private static final int MAX_LABEL_RESULTS = 10;
     private static final int MAX_DIMENSION = 1200;
 
-    private static final String TAG = test.class.getSimpleName();
+    private static final String TAG = PicChoose.class.getSimpleName();
     private static final int GALLERY_PERMISSIONS_REQUEST = 0;
     private static final int GALLERY_IMAGE_REQUEST = 1;
     public static final int CAMERA_PERMISSIONS_REQUEST = 2;
@@ -82,12 +70,12 @@ public class test extends statuscolors {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test);
+        setContentView(R.layout.picchoose);
 //        Toolbar toolbar = findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(view -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(test.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(PicChoose.this);
             builder
                     .setMessage(R.string.dialog_select_prompt)
                     .setPositiveButton(R.string.dialog_select_gallery, (dialog, which) -> startGalleryChooser())
@@ -120,7 +108,7 @@ public class test extends statuscolors {
         switch (item.getItemId()) {
             case R.id.search1:
                 // User chose the "Settings" item, show the app settings UI...
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), Listview.class);
                 //try catch
                 Log.d("Successed7", String.valueOf(imageDetail));
                 Log.d("Successed8", String.valueOf(imageDetail1));
@@ -198,23 +186,23 @@ public class test extends statuscolors {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
        if (requestCode == GALLERY_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
-            uploadImage1(data.getData());
+           uploadImageLabel(data.getData());
             uploadImage(data.getData());
         } else if (requestCode == CAMERA_IMAGE_REQUEST && resultCode == RESULT_OK) {
             photoUri = FileProvider.getUriForFile(this, getApplicationContext().getPackageName() + ".provider", getCameraFile());
 //           Picasso.get().load(photoUri).rotate(90f).into(mMainImage);
-            uploadImage1(photoUri);
+           uploadImageLabel(photoUri);
             uploadImage(photoUri);
 
         }
     }
 
-    public static Bitmap rotateImage(Bitmap source, float angle) {
+/*    public static Bitmap rotateImage(Bitmap source, float angle) {
         Matrix matrix = new Matrix();
         matrix.postRotate(angle);
         return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(),
                 matrix, true);
-    }
+    }*/
 
     public void uploadImage(Uri uri) {
         if (uri != null) {
@@ -238,17 +226,17 @@ public class test extends statuscolors {
         }
     }
 
-    public void uploadImage1(Uri uri) {
+    public void uploadImageLabel(Uri uri) {
         if (uri != null) {
             try {
                 // scale the image to save on bandwidth
-                Bitmap bitmap1 =
-                        scaleBitmapDown1(
+                Bitmap bitmapLabel =
+                        scaleBitmapDownLabel(
                                 MediaStore.Images.Media.getBitmap(getContentResolver(), uri),
                                 MAX_DIMENSION);
 
-                callCloudVision1(bitmap1);
-                mMainImage.setImageBitmap(bitmap1);
+                callCloudVisionLabel(bitmapLabel);
+                mMainImage.setImageBitmap(bitmapLabel);
 
             } catch (IOException e) {
                 Log.d(TAG, "Image picking failed because " + e.getMessage());
@@ -330,7 +318,7 @@ public class test extends statuscolors {
         return annotateRequest;
     }
 
-    private Vision.Images.Annotate prepareAnnotationRequest1(Bitmap bitmap) throws IOException {
+    private Vision.Images.Annotate prepareAnnotationRequestLabel(Bitmap bitmap) throws IOException {
         HttpTransport httpTransport = AndroidHttp.newCompatibleTransport();
         JsonFactory jsonFactory = GsonFactory.getDefaultInstance();
 
@@ -397,11 +385,11 @@ public class test extends statuscolors {
         return annotateRequest;
     }
 
-    private static class LableDetectionTask1 extends AsyncTask<Object, Void, String> {
-        private final WeakReference<test> mActivityWeakReference;
+    private static class LableDetectionTaskLabel extends AsyncTask<Object, Void, String> {
+        private final WeakReference<PicChoose> mActivityWeakReference;
         private Vision.Images.Annotate mRequest1;
 
-        LableDetectionTask1(test activity, Vision.Images.Annotate annotate) {
+        LableDetectionTaskLabel(PicChoose activity, Vision.Images.Annotate annotate) {
             mActivityWeakReference = new WeakReference<>(activity);
             mRequest1 = annotate;
         }
@@ -411,7 +399,7 @@ public class test extends statuscolors {
             try {
                 Log.d(TAG, "created Cloud Vision request object, sending request");
                 BatchAnnotateImagesResponse response1 = mRequest1.execute();
-                return convertResponseToString1(response1);
+                return convertResponseToStringLable(response1);
 
             } catch (GoogleJsonResponseException e) {
                 Log.d(TAG, "failed to make API request because " + e.getContent());
@@ -423,7 +411,7 @@ public class test extends statuscolors {
         }
 
         protected void onPostExecute(String result) {
-            test activity = mActivityWeakReference.get();
+            PicChoose activity = mActivityWeakReference.get();
             if (activity != null && !activity.isFinishing()) {
                 imageDetail1 = activity.findViewById(R.id.image_details1);
                 imageDetail1.setText(result);
@@ -433,9 +421,9 @@ public class test extends statuscolors {
     }
 
     private static class LableDetectionTask extends AsyncTask<Object, Void, String> { // 라벨 탐지 작업
-        private final WeakReference<test> mActivityWeakReference;
+        private final WeakReference<PicChoose> mActivityWeakReference;
         private Vision.Images.Annotate mRequest;
-        LableDetectionTask(test activity, Vision.Images.Annotate annotate) {
+        LableDetectionTask(PicChoose activity, Vision.Images.Annotate annotate) {
             mActivityWeakReference = new WeakReference<>(activity);
             mRequest = annotate;
         }
@@ -459,7 +447,7 @@ public class test extends statuscolors {
         }
 
         protected void onPostExecute(String result) { // 사후에?
-            test activity = mActivityWeakReference.get(); // 위크 참조
+            PicChoose activity = mActivityWeakReference.get(); // 위크 참조
             Log.d("SuccessedMessage1", String.valueOf(activity));
             if (activity != null && !activity.isFinishing()) {
                 Log.d("OOOK", String.valueOf(imageDetail1));
@@ -496,13 +484,13 @@ public class test extends statuscolors {
     }
 
     //api 호출 과정
-    private void callCloudVision1(final Bitmap bitmap) {
+    private void callCloudVisionLabel(final Bitmap bitmap) {
         // Switch text to loading
         mImageDetails1.setText(R.string.loading_message);
 
         // Do the real work in an async task, because we need to use the network anyway
         try {
-            AsyncTask<Object, Void, String> labelDetectionTask1 = new LableDetectionTask1(this, prepareAnnotationRequest1(bitmap));
+            AsyncTask<Object, Void, String> labelDetectionTask1 = new LableDetectionTaskLabel(this, prepareAnnotationRequestLabel(bitmap));
             labelDetectionTask1.execute();
         } catch (IOException e) {
             Log.d(TAG, "failed to make API request because of other IOException " +
@@ -532,7 +520,7 @@ public class test extends statuscolors {
     }
 
     // 비트맵 축소
-    private Bitmap scaleBitmapDown1(Bitmap bitmap, int maxDimension) {
+    private Bitmap scaleBitmapDownLabel(Bitmap bitmap, int maxDimension) {
 
         int originalWidth = bitmap.getWidth();
         int originalHeight = bitmap.getHeight();
@@ -552,7 +540,7 @@ public class test extends statuscolors {
         return Bitmap.createScaledBitmap(bitmap, resizedWidth, resizedHeight, false);
     }
     // LABEL api 메세지 반환
-    private static String convertResponseToString1(BatchAnnotateImagesResponse response) {
+    private static String convertResponseToStringLable(BatchAnnotateImagesResponse response) {
         StringBuilder message1 = new StringBuilder("I found these things:\n\n");
         StringBuilder message2 = new StringBuilder();
         List<EntityAnnotation> labels = response.getResponses().get(0).getLabelAnnotations();

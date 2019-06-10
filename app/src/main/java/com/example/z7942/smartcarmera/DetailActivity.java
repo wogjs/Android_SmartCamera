@@ -5,7 +5,6 @@ package com.example.z7942.smartcarmera;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,7 +21,7 @@ import static com.example.z7942.smartcarmera.Util.DBHelper.DATABASE_NAME;
 import static com.example.z7942.smartcarmera.Util.DBHelper.DATABASE_VERSION;
 import static com.example.z7942.smartcarmera.Util.DBHelper.TABLE_NAME;
 
-public class DetailActivity extends statuscolors implements View.OnClickListener {
+public class DetailActivity extends Statuscolors implements View.OnClickListener {
 
     ImageView imageDetail;
     TextView txtTitleDetail, txtLPriceDetail;
@@ -39,7 +38,7 @@ public class DetailActivity extends statuscolors implements View.OnClickListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
+        setContentView(R.layout.detail);
         getSupportActionBar().setElevation(0);
 
         initView();

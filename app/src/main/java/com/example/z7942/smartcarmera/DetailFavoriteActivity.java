@@ -5,7 +5,6 @@ package com.example.z7942.smartcarmera;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,7 +21,7 @@ import com.example.z7942.smartcarmera.Util.FavoriteItem;
 import static com.example.z7942.smartcarmera.Util.DBHelper.DATABASE_NAME;
 import static com.example.z7942.smartcarmera.Util.DBHelper.TABLE_NAME;
 
-public class DetailFavoriteActivity extends statuscolors implements View.OnClickListener {
+public class DetailFavoriteActivity extends Statuscolors implements View.OnClickListener {
 
     ImageView imageDetailFavorite;
     Button btnGoBuyFavorite, btnDelFavorite;
@@ -39,7 +38,7 @@ public class DetailFavoriteActivity extends statuscolors implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setElevation(0);
-        setContentView(R.layout.activity_detail_favorite);
+        setContentView(R.layout.detail_favorite);
         adapter = new FavoriteAdapter(this);
         initView();
         loadData();

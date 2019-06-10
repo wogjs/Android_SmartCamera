@@ -20,13 +20,13 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity_loading"
+            android:name=".Loading"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
             <intent-filter>
@@ -48,13 +48,13 @@
         </provider>
 
         <activity
-            android:name=".activity_main"
+            android:name=".Main"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".DetailActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Listview"
             android:screenOrientation="portrait" />
         <activity
             android:name=".FavoriteActivity"
@@ -63,7 +63,7 @@
             android:name=".DetailFavoriteActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".test"
+            android:name=".PicChoose"
             android:theme="@style/AppTheme.NoActionBar"
             android:configChanges="keyboardHidden|orientation"></activity>
     </application>
