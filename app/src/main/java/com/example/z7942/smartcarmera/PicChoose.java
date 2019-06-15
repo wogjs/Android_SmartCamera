@@ -119,7 +119,7 @@ public class PicChoose extends Statuscolors {
                     Toast.makeText(getApplicationContext(), "사진을 다시 촬영(선택)하세요", Toast.LENGTH_LONG).show();
                     return super.onOptionsItemSelected(item);
                 } else {
-                    if (imageDetail1.getText().toString().contains("Printer")) {
+                    if (imageDetail1.getText().toString().contains("Printer") || imageDetail1.getText().toString().contains("Electronic") && imageDetail1.getText().toString().contains("Gadget")) {
                         intent.putExtra("name", imageDetail.getText().toString());
                         startActivity(intent);
                         return true;
@@ -457,7 +457,8 @@ public class PicChoose extends Statuscolors {
                     imageDetail = activity.findViewById(R.id.image_details);
                     imageDetail.setText(result);
                     Log.d("Successed6", String.valueOf(imageDetail));
-                } else {
+                }
+                else {
                     imageDetail = activity.findViewById(R.id.image_details);
                     imageDetail.setText("사진을 다시 촬영(선택)하세요");
                     Log.d("OK123456", String.valueOf(imageDetail));
